@@ -16,8 +16,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "This is not a web page")
 }
 
-func addRootHandler() {
+func addHandlers() {
 	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/account/add", addAccountHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
