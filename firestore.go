@@ -10,7 +10,7 @@ import (
 func writeADocument(client *firestore.Client, ctx context.Context, documentMap map[string]interface{}, collection string) {
 	_, _, err := client.Collection(collection).Add(ctx, documentMap)
 	if err != nil {
-		log.Fatalf("Failed adding alovelace: %v", err)
+		log.Fatalf("Failed adding a %s : %v", collection, err)
 	}
 }
 
