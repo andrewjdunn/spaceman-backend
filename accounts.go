@@ -1,10 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"log"
 	"net/http"
 )
+
+const AccountInfoCollectionName string = "accountInfo"
+const AccountNameFieldName string = "name"
+const AccountPublicKeyFieldName string = "publicKey"
+const AccountPrivateKeyFieldName string = "privateKey"
 
 func addAccountHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -14,6 +19,17 @@ func addAccountHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	fmt.Fprint(w, "This is a", r.Method, " request at ", r.URL.Path, " name is ", r.URL.Query().Get("name"))
 
+	var accountName = r.URL.Query().Get("name")
+	var publicKey = r.URL.Query().Get("key")
+	var privateKey = makePrivatekey()
+
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	writeADocument(client, ctx, map[string]interface{}{
+		AccountNameFieldName:       accountName,
+		AccountPublicKeyFieldName:  publicKey,
+		AccountPrivateKeyFieldName: privateKey}, AccountInfoCollectionName)
 }

@@ -7,8 +7,8 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
-func writeADocument(client *firestore.Client, ctx context.Context, userMap map[string]interface{}, collection string) {
-	_, _, err := client.Collection(collection).Add(ctx, userMap)
+func writeADocument(client *firestore.Client, ctx context.Context, documentMap map[string]interface{}, collection string) {
+	_, _, err := client.Collection(collection).Add(ctx, documentMap)
 	if err != nil {
 		log.Fatalf("Failed adding alovelace: %v", err)
 	}
